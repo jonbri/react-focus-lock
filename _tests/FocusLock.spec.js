@@ -518,6 +518,44 @@ d-action
           done();
         });
       });
+
+      it('Focuses on editable textarea', (done) => {
+        const wrapper = mount((
+          <div>
+            <button className="action1">action1</button>
+            <FocusLock>
+              <div>
+                <textarea id="textarea-0" value="lorum" onChange={() => {}} />
+              </div>
+            </FocusLock>
+          </div>
+        ));
+        wrapper.find('.action1').getDOMNode().focus();
+        expect(document.activeElement.innerHTML).to.be.equal('action1');
+        setImmediate(() => {
+          expect(document.activeElement.id).to.be.equal('textarea-0');
+          done();
+        });
+      });
+
+      it('Focuses on readonly textarea', (done) => {
+        const wrapper = mount((
+          <div>
+            <button className="action1">action1</button>
+            <FocusLock>
+              <div>
+                <textarea id="textarea-0" readOnly value="lorum" />
+              </div>
+            </FocusLock>
+          </div>
+        ));
+        wrapper.find('.action1').getDOMNode().focus();
+        expect(document.activeElement.innerHTML).to.be.equal('action1');
+        setImmediate(() => {
+          expect(document.activeElement.id).to.be.equal('textarea-0');
+          done();
+        });
+      });
     });
 
     it('should focus on previous lock after state change', (done) => {
